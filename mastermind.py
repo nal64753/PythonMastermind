@@ -45,18 +45,22 @@ def user_guess():
 # returns the number of cows and bulls in an array
 def evaluate_guess(answer, guess):
     cowbull = [0, 0]
+
     # iterates through all digits in the answer
     for i in range(len(answer)):
+
         # check if the usr digit is in the same place as ans
         if guess[i] == answer[i]:
             # a match denotes a cow
             cowbull[0] += 1
             continue
+        bullnotentered = True
         # checks if usr digit is in the entire ans
         for digit in range(len(guess)):
-            if guess[digit] == answer[i]:
-                # a match denotes a bull
+            if answer[digit] == guess[i] and bullnotentered:
+                # a match denotes a bull, break makes it so it cannot be more than 1 bull
                 cowbull[1] += 1
+                bullnotentered = False
                 continue
     return cowbull
 
@@ -65,7 +69,7 @@ ans = Answer()
 print 'Welcome to the Cows and Bulls Game! \n'
 cows = 0
 bulls = 0
-
+ans.value = '3522'
 # Playing the game
 while cows != 4:
     usr = GuessNum(user_guess())
@@ -78,4 +82,3 @@ while cows != 4:
 
 # After the game is completed
 print 'You completed the game! It took you %d guesses!' % ans.guesses
-
