@@ -41,32 +41,28 @@ def user_guess():
         print 'That\'s not a 4-digit number! \n'
 
 
-# removes digits that were counted twice
-# returns the array with dupes removed
-def remove_duplicates(bulls, cows, array):
-    for cownum in range(len(cows)):
-        for bullnum in range(len(bulls)):
-            if cows[cownum] == bulls[bullnum] and array[1] > 0:
-                array[1] -= 1
-
-    return array
-
-
 # compares user's guess to the answer and reports cows and bulls
 # returns the number of cows and bulls in an array
 def evaluate_guess(answer, guess):
-    cowbull = [0, 0]
+    cows = [0, [], []]
+    bulls = [0, [], []]
     # iterates through all digits in the answer
-    for key in guess:
+    for index, key in enumerate(guess):
         if key in answer:
-            if answer[int(key)] == guess[int(key)]:
-                cowbull[0] += 1
+            if answer[index] == guess[index]:
+                cows[0] += 1
+                cows[1].append(index)
+                cows[2].append(key)
             else:
-                cowbull[1] += 1
-    return cowbull
+                if cows[1]
+                bulls[0] += 1
+                bulls[1].append(guess[index])
+
+    return [cows[0], bulls[0]]
 
 # Initiating the game
 ans = Answer()
+ans.value = ['1', '1', '2', '2']
 print 'Welcome to the Cows and Bulls Game! \n'
 cows = 0
 bulls = 0
