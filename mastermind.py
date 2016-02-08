@@ -5,7 +5,7 @@ import random
 # guess: user guess value
 class GuessNum(object):
     def __init__(self, guess):
-        self.guess = guess
+        self.guess = list(guess)
 
 
 # object that represents the answer
@@ -15,7 +15,7 @@ class Answer(object):
 
     # instantiates the value of the answer
     def __init__(self):
-        self.value = self.generate_number()
+        self.value = list(self.generate_number())
 
     # generates a digit from 0-9 to be concatenated in generate_number
     # returns a random digit
@@ -41,27 +41,28 @@ def user_guess():
         print 'That\'s not a 4-digit number! \n'
 
 
+# removes digits that were counted twice
+# returns the array with dupes removed
+def remove_duplicates(bulls, cows, array):
+    for cownum in range(len(cows)):
+        for bullnum in range(len(bulls)):
+            if cows[cownum] == bulls[bullnum] and array[1] > 0:
+                array[1] -= 1
+
+    return array
+
+
 # compares user's guess to the answer and reports cows and bulls
 # returns the number of cows and bulls in an array
 def evaluate_guess(answer, guess):
     cowbull = [0, 0]
-
     # iterates through all digits in the answer
-    for i in range(len(answer)):
-
-        # check if the usr digit is in the same place as ans
-        if guess[i] == answer[i]:
-            # a match denotes a cow
-            cowbull[0] += 1
-            continue
-        bullnotentered = True
-        # checks if usr digit is in the entire ans
-        for digit in range(len(guess)):
-            if answer[digit] == guess[i] and bullnotentered:
-                # a match denotes a bull, break makes it so it cannot be more than 1 bull
+    for key in guess:
+        if key in answer:
+            if answer[int(key)] == guess[int(key)]:
+                cowbull[0] += 1
+            else:
                 cowbull[1] += 1
-                bullnotentered = False
-                continue
     return cowbull
 
 # Initiating the game
@@ -69,7 +70,6 @@ ans = Answer()
 print 'Welcome to the Cows and Bulls Game! \n'
 cows = 0
 bulls = 0
-ans.value = '3522'
 # Playing the game
 while cows != 4:
     usr = GuessNum(user_guess())
