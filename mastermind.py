@@ -44,21 +44,24 @@ def user_guess():
 # compares user's guess to the answer and reports cows and bulls
 # returns the number of cows and bulls in an array
 def evaluate_guess(answer, guess):
-    cows = [0, [], []]
-    bulls = [0, [], []]
+    cows = [[], [], 0]
+    bulls = [[], [], 0]
     # iterates through all digits in the answer
     for index, key in enumerate(guess):
         if key in answer:
             if answer[index] == guess[index]:
-                cows[0] += 1
-                cows[1].append(index)
-                cows[2].append(key)
+                cows[0].append(index)
+                cows[1].append(key)
             else:
-                if cows[1]
-                bulls[0] += 1
-                bulls[1].append(guess[index])
+                # add condition to check
+                for i in range(index, 0, -1):
+                    if cows[1][index] == key:
+                        break
+                else:
+                    bulls[2] += 1
+                    bulls[0].append(guess[index])
 
-    return [cows[0], bulls[0]]
+    return [cows[2], bulls[2]]
 
 # Initiating the game
 ans = Answer()
