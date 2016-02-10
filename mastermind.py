@@ -13,6 +13,7 @@ class GuessNum(object):
 class Answer(object):
     guesses = 0
     cowsnbulls = ['X', 'X', 'X', 'X']
+
     # instantiates the value of the answer
     def __init__(self):
         self.value = list(self.generate_number())
@@ -33,12 +34,15 @@ class Answer(object):
 
 # obtains the user's guess
 # returns the guess value from user
+# throws exception if not valid input
 def user_guess():
     while True:
-        guess = str(raw_input('Guess the number: '))
-        if len(guess) == 4:
-            return guess
-        print 'That\'s not a 4-digit number! \n'
+        try:
+            guess = int(raw_input('Guess the number: '))
+            if len(str(guess)) == 4:
+                return str(guess)
+        except ValueError:
+            print 'That\'s not a 4-digit number! \n'
 
 
 # compares user's guess to the answer and reports cows and bulls
@@ -66,7 +70,9 @@ def evaluate_guess(answer, guess, cowsnbulls):
         elif cowbull[x] == 'B':
             numbulls += 1
 
+    # return the number of cows and bulls
     return [numcows, numbulls]
+
 
 # Initiating the game
 ans = Answer()
@@ -77,13 +83,14 @@ bulls = 0
 while cows != 4:
     key = list(''.join(ans.value))
     usr = GuessNum(user_guess())
+
+    # evaluate the guess against the answer
     result = evaluate_guess(key, usr.guess, ans.cowsnbulls)
     cows = result[0]
     bulls = result[1]
     ans.guesses += 1
-    print 'you have %d cows, and %d bulls.' %(cows, bulls)
+    print 'you have %d cows, and %d bulls.' % (cows, bulls)
     print '(key: %s guess: %s) \n' % (ans.value, usr.guess)
-
 
 # After the game is completed
 print 'You completed the game! It took you %d guesses!' % ans.guesses
