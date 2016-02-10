@@ -44,23 +44,23 @@ def user_guess():
 # compares user's guess to the answer and reports cows and bulls
 # returns the number of cows and bulls in an array
 def evaluate_guess(answer, guess, cowsnbulls):
-    cowbull = cowsnbulls
+    cowbull = list(''.join(cowsnbulls))
     # iterates through all digits in the answer
     for i in range(4):
-        if guess[i] in answer:
-            # cow check
-            if answer[i] == guess[i]:
-                cowbull[i] = 'C'
-                answer[i] = 'X'
-                guess[i] = 'X'
+        if answer[i] == guess[i]:
+            cowbull[i] = 'C'
+            answer[i] = 'X'
 
+    # find bulls
     for j in range(4):
         if guess[j] in answer and cowbull[j] != 'C':
             cowbull[j] = 'B'
+            answer[answer.index(guess[j])] = 'X'
 
+    # count the number of cows and bulls
     numcows = 0
     numbulls = 0
-    for x in range (4):
+    for x in range(4):
         if cowbull[x] == 'C':
             numcows += 1
         elif cowbull[x] == 'B':
@@ -70,20 +70,17 @@ def evaluate_guess(answer, guess, cowsnbulls):
 
 # Initiating the game
 ans = Answer()
-solution = ans.value
-# ans.value = ['1', '1', '2', '2']
 print 'Welcome to the Cows and Bulls Game! \n'
 cows = 0
 bulls = 0
 # Playing the game
 while cows != 4:
-    print solution
+    key = list(''.join(ans.value))
     usr = GuessNum(user_guess())
-    result = evaluate_guess(ans.value, usr.guess, ans.cowsnbulls)
+    result = evaluate_guess(key, usr.guess, ans.cowsnbulls)
     cows = result[0]
     bulls = result[1]
     ans.guesses += 1
-    ans.value = solution
     print 'you have %d cows, and %d bulls.' %(cows, bulls)
     print '(key: %s guess: %s) \n' % (ans.value, usr.guess)
 
